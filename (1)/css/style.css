@@ -7,60 +7,109 @@
 .chat-container {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    grid-template-rows: repeat(6, 1fr);
     margin-top: 20px;
+    gap: 10px;
 }
 
-.info{
+.message {
     display: grid;
+    grid-template-columns: 1fr 2.5fr 1fr;
+    column-gap: 10px;
+    margin: 0 10px;
+}
+
+.info {
+    grid-area: info;
+    display: grid;
+    grid-template-columns: 1fr 50px;
     grid-template-rows: 1fr 1fr;
+    grid-template-areas: "username avatar"
+    "timestamp avatar";
     column-gap: 10px;
 }
 
-.info:nth-child(even){
-    grid-template-columns: 60px 1fr 1fr;
-}
-
-.info:nth-child(odd){
-    grid-template-columns: 1fr 1fr 60px;
-}
-
-.info .avatar{
-    grid-row-start: span 2;
-}
-
-.info span{
-    text-wrap: nowrap;
-    grid-column-start: span 2;
-}
-
-.info:nth-child(even) span{
-    text-align: left;
-}
-
-.info:nth-child(odd) span{
-    text-align: right;
-}
-
-.info:nth-child(even) .avatar{
-    justify-self: end;
-}
-
-.span-item{
+.message > span{
+    grid-area: span;
     background-color: #ffb6c1;
     padding: 10px;
     border-radius: 10px 10px 10px 0px;
     margin: 5px;
 }
 
-.span-item:nth-child(odd){
+.message:nth-child(even) > span {
     background-color: #add8e5;
     border-radius: 10px 10px 0px 10px;
 }
 
 .avatar {
+    grid-area: avatar;
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    align-self: center;
+}
+
+.username {
+    grid-area: username;
+    justify-self: end;
+    text-wrap: nowrap;
+    align-self: end;
+}
+
+.timestamp {
+    grid-area: timestamp;
+    justify-self: end;
+    text-wrap: nowrap;
+    align-self: start;
+    color: #8b8888
+}
+
+@media screen and (min-width: 769px) {
+
+    .message:nth-child(odd) {
+        grid-template-areas: "info span .";
+    }
+
+    .message:nth-child(even) {
+        grid-template-areas: ". span info";
+    }
+
+    .message:nth-child(even) > span{
+        grid-row-start: 1;
+        grid-row-end: 1;
+        grid-column-start: 2;
+        grid-column-end: 2;
+    }
+
+    .message:nth-child(even) .info {
+        grid-template-columns: 50px 1fr;
+        grid-template-areas: "avatar username"
+        "avatar timestamp";
+    }
+
+    .message:nth-child(even) .info .username,
+    .message:nth-child(even) .info .timestamp {
+    justify-self: start;
+}
+}
+
+@media screen and (max-width: 768px) and (min-width: 600px) {
+    .message {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas: "info span";
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .message {
+        grid-template-columns: 50px 2fr;
+        grid-template-areas: "info span";
+    }
+
+    .info {
+        grid-template-columns: 50px;
+        grid-template-areas: "avatar"
+        "avatar";
+        overflow: hidden;
+    }
 }
